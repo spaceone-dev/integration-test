@@ -1,0 +1,20 @@
+name: "hook"
+on:
+  workflow_dispatch:
+    inputs:
+      input:
+        required: true
+        default: test
+
+jobs:
+  reflect_branch_update:
+    env:
+      VERSION: ${{ github.event.client_payload.version }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: update master version
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          event-type: bypass_test
+          client-payload: '{"version": "${{ env.TAG }}"}'
