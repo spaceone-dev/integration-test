@@ -48,8 +48,10 @@ jobs:
 
       - name: compare versions
         run: |
-          version=$(cat src/VERSION)
-          if [ ${{ env.TAG }} == $version ];
+          echo "old_version=$(cat src/VERSION)"
+          echo ${{old_version}}
+          echo $old_version
+          if [ ${{ env.TAG }} == $old_version ];
           then
             exit 1
           elif [ $(echo ${{ env.old_major }}) \> $(echo ${{ env.new_major }}) ];
