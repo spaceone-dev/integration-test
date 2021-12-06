@@ -8,6 +8,8 @@ on:
         default: v1.0.0
 env:
   TAG: ${{ github.event.inputs.tag }}
+  SLACK_WEBHOOK_URL: ${{secrets.SLACK_WEBHOOK_URL}}
+
 
 jobs:
   condition_check:
@@ -119,8 +121,6 @@ jobs:
           status: ${{job.status}}
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
           author_name: Github Action Slack
-        env:
-          SLACK_WEBHOOK_URL: ${{secrets.SLACK_WEBHOOK_URL}}
 
   notification:
     if: github.repository_owner == 'spaceone-dev'
@@ -134,5 +134,3 @@ jobs:
           status: ${{job.status}}
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
           author_name: Github Action Slack
-        env:
-          SLACK_WEBHOOK_URL: ${{secrets.SLACK_WEBHOOK_URL}}
