@@ -79,6 +79,10 @@ jobs:
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
           branch: master
+      - name: git tag
+        run: |
+          git tag ${{ env.TAG }}
+          git push origin "${{ env.TAG }}"
       - name: notice when job fails
         if: failure()
         uses: 8398a7/action-slack@v3.2.0
@@ -106,7 +110,7 @@ jobs:
           repository: pyengine/${{ env.SERVICE }}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: ${{ env.TAG }}
+          tags: ${{ env.VERSION }}
       - name: Build and push to spaceone
         uses: docker/build-push-action@v1
         with:
