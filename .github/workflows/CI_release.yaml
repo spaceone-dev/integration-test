@@ -48,8 +48,8 @@ jobs:
 
       - name: compare versions
         run: |
-          echo "OLD_VERSION=$(cat src/VERSION)" >> $GITHUB_ENV
-          if [ $(echo ${{ env.TAG }}) == ${{ env.OLD_VERSION }} ];
+          version = $(cat src/VERSION)
+          if [ ${{ env.TAG }} == $version ];
           then
             exit 1
           elif [ $(echo ${{ env.old_major }}) \> $(echo ${{ env.new_major }}) ];
