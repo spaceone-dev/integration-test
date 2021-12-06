@@ -48,7 +48,7 @@ jobs:
 
       - name: compare versions
         run: |
-          version = $(cat src/VERSION)
+          version=$(cat src/VERSION)
           if [ ${{ env.TAG }} == $version ];
           then
             exit 1
