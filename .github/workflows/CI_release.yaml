@@ -42,13 +42,13 @@ jobs:
           echo "old_major=$(cat src/VERSION | cut -c 2- | cut -d'.' -f1)"
           echo "old_minor=$(cat src/VERSION | cut -c 2- | cut -d'.' -f2)"
           echo "old_patch=$(cat src/VERSION | cut -c 2- | cut -d'.' -f3)"
-          echo "new_major=$(echo ${{ env.VERSION }} | cut -c 2- | cut -d'.' -f1)"
-          echo "new_minor=$(echo ${{ env.VERSION }} | cut -c 2- | cut -d'.' -f2)"
-          echo "new_patch=$(echo ${{ env.VERSION }} | cut -c 2- | cut -d'.' -f3)"
+          echo "new_major=$(echo ${{ env.TAG }} | cut -c 2- | cut -d'.' -f1)"
+          echo "new_minor=$(echo ${{ env.TAG }} | cut -c 2- | cut -d'.' -f2)"
+          echo "new_patch=$(echo ${{ env.TAG }} | cut -c 2- | cut -d'.' -f3)"
 
       - name: compare versions
         run: |
-          if [ $(echo ${{ env.VERSION }}) == $(cat src/VERSION) ];
+          if [ $(echo ${{ env.TAG }}) == $(cat src/VERSION) ];
           then
             exit 1
           elif [ $(echo ${{ env.old_major }}) \> $(echo ${{ env.new_major }}) ];
@@ -105,7 +105,7 @@ jobs:
           repository: pyengine/${{ env.SERVICE }}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: ${{ env.VERSION }}
+          tags: ${{ env.TAG }}
       - name: Build and push to spaceone
         uses: docker/build-push-action@v1
         with:
@@ -113,7 +113,7 @@ jobs:
           repository: spaceone/${{ env.SERVICE }}
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: ${{ env.VERSION }}
+          tags: ${{ env.TAG }}
       - name: Notice when job fails
         if: failure()
         uses: 8398a7/action-slack@v3.2.0
