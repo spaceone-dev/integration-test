@@ -121,6 +121,7 @@ jobs:
           author_name: Github Action Slack
         env:
           SLACK_WEBHOOK_URL: ${{secrets.SLACK_WEBHOOK_URL}}
+
   notification:
     if: github.repository_owner == 'spaceone-dev'
     needs: docker
