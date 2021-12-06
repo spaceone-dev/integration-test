@@ -46,7 +46,7 @@ jobs:
 
       - name: compare versions
         run: |
-          if [$(echo ${{ env.VERSION }}) == $(echo ${{ cat src/VERSION }}) ];
+          if [ $(echo ${{ env.VERSION }}) == $(cat src/VERSION) ];
           then
             exit 1
           elif [ $(echo ${{ env.old_major }}) \> $(echo ${{ env.new_major }}) ];
