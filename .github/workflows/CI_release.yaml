@@ -44,9 +44,9 @@ jobs:
           echo "new_minor=$(echo ${{ env.VERSION }} | cut -c 2- | cut -d'.' -f2)"
           echo "new_patch=$(echo ${{ env.VERSION }} | cut -c 2- | cut -d'.' -f3)"
 
-      - name: is latest?
+      - name: compare versions
         run: |
-          if [$(echo ${{ env.VERSION }}) == $(echo ${{ src/VERSION }}) ];
+          if [$(echo ${{ env.VERSION }}) == $(echo ${{ cat src/VERSION }}) ];
           then
             exit 1
           elif [ $(echo ${{ env.old_major }}) \> $(echo ${{ env.new_major }}) ];
@@ -61,7 +61,7 @@ jobs:
           else
             echo "version=${{ env.TAG }}"
           fi
-      - name: Latest Update - update version file
+      - name: update version file
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.PAT_TOKEN }}
@@ -71,12 +71,12 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git commit -m "[CI/CD] release version ${{ env.TAG }}"
-      - name: Push changes
+      - name: push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
           branch: master
-      - name: Notice when job fails
+      - name: notice when job fails
         if: failure()
         uses: 8398a7/action-slack@v3.2.0
         with:
